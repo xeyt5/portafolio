@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'auth_app',
     'corsheaders',
     'dashboard',
+    'proyectos',
 ]
 
 MIDDLEWARE = [
@@ -66,7 +67,7 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = str(BASE_DIR / 'media')
 
 
 ROOT_URLCONF = 'config.urls'

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import  { RouterLink } from '@angular/router';
 import { SafeUrlPipe } from '../../../pipes/safe-url-pipe';
 import { url } from 'inspector';
+import { DashboardService } from 'app/core/services/dashboard/dashboard.service';
 
 
 @Component({
@@ -13,10 +14,26 @@ import { url } from 'inspector';
   styleUrl: './dashboard.css'
 })
 export class Dashboard {
-  user={ 
-    name:"xeyt",
-    avatar: "https://i.pravatar.cc/150?img=7" 
+  private _dashboarService = inject(DashboardService)
+  private _cdr = inject(ChangeDetectorRef)
+  dashboard: any = null;
+  loading: boolean = true;
+
+  ngOnInit(): void{
+    this._dashboarService.getDashboardData().subscribe({
+      next: res => {
+        this.dashboard = res.data.dashboard;
+        this.loading = false
+        this._cdr.detectChanges()
+      },
+      error: err => {
+        this.loading = false;
+        this._cdr.detectChanges()
+      }
+    })
   }
+
+
   videos = [
     {
       title: '¡Las 10 apps que no pueden faltar en tu Linux!',

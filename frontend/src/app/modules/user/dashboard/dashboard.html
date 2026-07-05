@@ -1,26 +1,19 @@
 <section class="flex justify-center p-6">
-  <div class="max-w-5xl rounded-2xl bg-white dark:bg-[#1e2130] p-6 shadow-lg border border-gray-200 dark:border-gray-700 flex flex-col md:flex-row gap-6 items-center transition ease-in-out hover:shadow-xl hover:border-white transform hover:-translate-y-2 hover:ring-2 hover:ring-blue-400 dark:hover:ring-purple-500">
-    
-    <!-- Recuadro para la foto -->
-    <img 
-      src="perfil.ico"
-      alt="Foto de usuario"
-      class="w-40 h-40 rounded-full object-cover border border-gray-300 dark:border-gray-600 shadow"
-    >
+  <div class="max-w-5xl rounded-2xl bg-white dark:bg-[#1e2130] p-6 shadow-lg border border-gray-200 dark:border-gray-700 flex flex-col md:flex-row gap-6 items-center transition ease-in-out hover:shadow-xl hover:border-white transform hover:-translate-y-2 hover:ring-2 hover:ring-blue-400 dark:hover:ring-purple-500 w-screen">
+    @if (loading) {
+      <p>Cargando...</p>
+    } @else {
 
-    <!-- Texto -->
-    <div>
-      <h2 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Sobre mí</h2>
-      <p class="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
-        Soy un creador de contenido y desarrollador en crecimiento especializado en 
-        Linux, tecnología, con experiencia trabajando en entornos web usando 
-        Angular, Django y TailwindCSS. Me caracterizo por explicar conceptos complejos 
-        de forma simple y visual, creando contenido educativo para miles de personas. Actualmente fortaleciendo mis 
-        fundamentos de programación y desarrollo full-stack, combino habilidades técnicas con comunicación efectiva 
-        para crear experiencias claras y atractivas.
-      </p>
-    </div>
+      <img [src]="dashboard?.imagen"
+           alt="imagen dashboard"
+           class="w-40 h-40 rounded-full object-cover border border-gray-300 dark:border-gray-600 shadow"/>
 
+      <div class="flex flex-col gap-2 flex-1">
+        <h1 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Sobre mi</h1>
+        <p class="dark:text-white text-gray-700">{{ dashboard?.descripcion }}</p>
+      </div>
+
+    }
   </div>
 </section>
 

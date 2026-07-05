@@ -18,7 +18,7 @@ export class DashboardService {
     }
 
     updateDashboardData(data: any): Observable<any>{
-        return this._httpClient.post(`${this._baseUrl}/update/`, data);
+        return this._httpClient.patch(`${this._baseUrl}/update/`, data);
     }
 
 }

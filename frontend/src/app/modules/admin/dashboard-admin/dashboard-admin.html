@@ -1,6 +1,82 @@
-@if (loading) {
-  <p>Cargando...</p>
-} @else {
-  <p>{{ dashboard?.descripcion }}</p>
-  <img [src]="dashboard?.imagen" alt="imagen dashboard" />
-}
+<section class="flex justify-center p-6">
+  <div class="max-w-5xl rounded-2xl bg-white dark:bg-[#1e2130] p-6 shadow-lg border border-gray-200 dark:border-gray-700 flex flex-col md:flex-row gap-6 items-center transition ease-in-out hover:shadow-xl hover:border-white transform hover:-translate-y-2 hover:ring-2 hover:ring-blue-400 dark:hover:ring-purple-500 w-screen">
+    @if (loading) {
+      <p>Cargando...</p>
+    } @else {
+
+      <img [src]="dashboard?.imagen"
+           alt="imagen dashboard"
+           class="w-40 h-40 rounded-full object-cover border border-gray-300 dark:border-gray-600 shadow"/>
+
+      <div class="flex flex-col gap-2 flex-1">
+
+        @if (editar) {
+          <input type="file" accept="image/*" (change)="onImageSeleccionada($event)"
+          class="text-sm text-gray-300 dark:text-gray-200">
+          <textarea
+            [(ngModel)]="descripcionEdit"
+            class="w-full p-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-[#2a2f45] dark:text-white text-sm resize-none"
+            rows="3">
+          </textarea>
+          <div class="flex gap-2">
+            <button (click)="guardarEdicion()"
+              class="bg-green-500 hover:bg-green-600 text-white text-sm font-semibold px-4 py-1.5 rounded-lg transition">
+              Guardar
+            </button>
+            <button (click)="cancelarEdicion()"
+              class="bg-gray-300 hover:bg-gray-400 text-gray-800 text-sm font-semibold px-4 py-1.5 rounded-lg transition">
+              Cancelar
+            </button>
+          </div>
+        } @else {
+          <h1 class="text-3xl font-bold mb-4 text-gray-900 dark:text-white ">Sobre mi</h1>
+          <p class="dark:text-white text-gray-700 gap-3">{{ dashboard?.descripcion }}</p>
+          <button (click)="Editar()"
+            class="self-start bg-blue-500 hover:bg-blue-600 text-white text-sm font-semibold px-4 py-1.5 rounded-lg transition">
+            Editar
+          </button>
+        }
+
+      </div>
+    }
+
+  </div>
+</section>
+<section class="flex justify-center p-6 mt-10 cursor-default">
+  <div class="max-w-5xl w-full">
+    <h2 class="font-bold text-2xl text-gray-900 dark:text-white mb-6">
+      mis proyectos destacados
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div
+        class="rounded-2xl bg-white dark:bg-[#1e2130] 
+               border border-gray-200 dark:border-gray-700 
+               shadow-lg p-5 transition duration-300 
+               hover:scale-105 hover:-translate-y-1 
+               hover:shadow-xl hover:ring-2 
+               hover:ring-blue-400 dark:hover:ring-purple-500 cursor-default">
+        <img
+          class="w-full h-40 object-cover rounded-lg mb-4 
+                 border border-gray-200 dark:border-gray-600">
+        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+          titulo
+        </h3>
+
+        <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+          descripcion
+        </p>
+
+        <a 
+          class="inline-block bg-slate-400 dark:bg-[#818cf8] 
+                text-black font-bold px-6 py-3 
+                rounded-full shadow 
+                hover:text-black transition duration-300 
+                hover:scale-105 cursor-pointer">
+          Ver proyecto
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>

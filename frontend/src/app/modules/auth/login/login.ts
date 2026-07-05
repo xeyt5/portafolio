@@ -1,22 +1,27 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { ConfirmLoginDialog } from '../../shared/confirm-login-dialog/confirm-login-dialog';
 import { MatDialog } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],  
   templateUrl: './login.html',
   styleUrls: ['./login.css']
 })
-
 export class LoginComponent {
   form = {
     username: '',
     password: ''
   };
+
+  cargando: boolean = false;           
+  mensaje: string = '';                
+  tipoMensaje: 'success' | 'error' | '' = ''; 
 
   constructor(
     private authService: AuthService,
@@ -25,25 +30,34 @@ export class LoginComponent {
   ) {}
 
   onSubmit(event: Event): void {
-    event.preventDefault(); 
-    
-    console.log('Angular está vivo y el navegador NO se recargó');
-    console.log('Datos capturados:', this.form);
+    event.preventDefault();
+    this.cargando = true;
+    this.mensaje = '';
 
     this.authService.login(this.form).subscribe({
       next: res => {
+        this.cargando = false;
         if (res && res.token) {
-            const dialogRef = this.dialog.open(ConfirmLoginDialog, {
+          this.tipoMensaje = 'success';
+          this.mensaje = 'Inicio de sesión exitoso';
+          const dialogRef = this.dialog.open(ConfirmLoginDialog, {
             width: '300px',
             data: { message: '¿Inicio de sesión exitoso?' }
           });
-          console.log('Login successful:', res);
-          this.router.navigate(['/dashboard-admin']);
+          dialogRef.afterClosed().subscribe(() => {
+            this.router.navigate(['/dashboard-admin']);
+          });
         } else {
-          console.error('Login failed: No token received');
+          this.tipoMensaje = 'error';
+          this.mensaje = 'No se recibió token';
         }
       },
-      error: err => console.error('Login failed', err)
+      error: err => {
+        this.cargando = false;
+        this.tipoMensaje = 'error';
+        this.mensaje = 'Usuario o contraseña incorrectos';
+        console.error('Login failed', err);
+      }
     });
   }
 }
